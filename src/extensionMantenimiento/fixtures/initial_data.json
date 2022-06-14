@@ -1,0 +1,20 @@
+[
+    {
+        "model": "extensionMantenimiento.extensionMantenimiento",
+        "pk": 1,
+        "fields": {
+            "fecha": "2022-05-02",
+            "fechaFinPrevista": "2022-06-02",
+            "motivo": "motivo1"
+        }
+    },
+    {
+        "model": "extensionMantenimiento.extensionMantenimiento",
+        "pk": 2,
+        "fields": {
+            "fecha": "2022-06-02",
+            "fechaFinPrevista": "2022-06-25",
+            "motivo": "motivo2"
+        }
+    }
+]

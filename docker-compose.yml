@@ -1,0 +1,71 @@
+version: '3.7'
+
+services:
+  extensionMantenimiento:
+    image: postgres
+    container_name: extensionMantenimiento
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    restart: always
+    expose:
+      - "5432"
+    ports:
+      - "5432:5432"
+    networks:
+      - net
+
+  extension_mantenimiento_app:
+    build: .
+    container_name: extension_mantenimiento_app
+    command: runserver 0.0.0.0:8000
+    entrypoint: python3 manage.py
+    env_file:
+      - .env
+    environment:
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    restart: always
+    expose:
+      - "8000"
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./src:/code
+    depends_on:
+      - extensionMantenimiento
+    networks:
+      - net
+
+  generate:
+    build: .
+    command: bash -c 'mkdir src && django-admin startproject app src'
+    env_file:
+      - .env
+    volumes:
+      - .:/code
+    depends_on:
+      - extensionMantenimiento
+    networks:
+      - net
+
+  manage:
+    build: .
+    entrypoint: python3 manage.py
+    env_file:
+      - .env
+    volumes:
+      - ./src:/code
+    depends_on:
+      - extensionMantenimiento
+    networks:
+      - net
+
+networks:
+  net:
