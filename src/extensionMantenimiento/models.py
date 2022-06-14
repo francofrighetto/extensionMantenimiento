@@ -23,4 +23,3 @@ class ExtensionMantenimiento(models.Model):
         ordering = ['fecha','fechaFinPrevista','motivo']
         verbose_name = 'extension mantenimiento'
         verbose_name_plural = 'extensiones mantenimiento'
-
